@@ -17,9 +17,6 @@ declare global {
             enablejsapi?: 0 | 1;
             fs?: 0 | 1;
             iv_load_policy?: 1 | 3;
-            listType?: 'playlist' | 'search' | 'user_uploads';
-            list?: string;
-            index?: number;
             modestbranding?: 0 | 1;
             playsinline?: 0 | 1;
             rel?: 0 | 1;
@@ -46,12 +43,6 @@ declare global {
   }
 }
 
-export interface VideoData {
-  video_id?: string;
-  title?: string;
-  author?: string;
-}
-
 export interface YTPlayerInstance {
   playVideo: () => void;
   pauseVideo: () => void;
@@ -64,14 +55,6 @@ export interface YTPlayerInstance {
   isMuted: () => boolean;
   loadVideoById: (options: { videoId: string; startSeconds?: number } | string) => void;
   cueVideoById: (options: { videoId: string; startSeconds?: number } | string) => void;
-  loadPlaylist: (options: { list: string; listType?: string; index?: number; startSeconds?: number } | string[]) => void;
-  cuePlaylist: (options: { list: string; listType?: string; index?: number; startSeconds?: number } | string[]) => void;
-  nextVideo: () => void;
-  previousVideo: () => void;
-  playVideoAt: (index: number) => void;
-  getPlaylist: () => string[];
-  getPlaylistIndex: () => number;
-  getVideoData: () => VideoData;
   getCurrentTime: () => number;
   getDuration: () => number;
   getPlayerState: () => number;
@@ -82,19 +65,15 @@ export interface YTPlayerInstance {
 interface UseYouTubePlayerProps {
   containerId: string;
   initialVideoId?: string;
-  initialPlaylistId?: string;
   onTrackEnded?: () => void;
   onErrorTrack?: (errorMsg: string) => void;
-  onVideoDataChange?: (data: VideoData) => void;
 }
 
 export function useYouTubePlayer({
   containerId,
   initialVideoId,
-  initialPlaylistId,
   onTrackEnded,
   onErrorTrack,
-  onVideoDataChange,
 }: UseYouTubePlayerProps) {
   const playerRef = useRef<YTPlayerInstance | null>(null);
   const [playerState, setPlayerState] = useState<PlayerState>({
@@ -115,10 +94,7 @@ export function useYouTubePlayer({
   const onErrorTrackRef = useRef(onErrorTrack);
   onErrorTrackRef.current = onErrorTrack;
 
-  const onVideoDataChangeRef = useRef(onVideoDataChange);
-  onVideoDataChangeRef.current = onVideoDataChange;
-
-  // Poll progress and track data while playing
+  // Poll progress while playing
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
@@ -130,13 +106,6 @@ export function useYouTubePlayer({
             const dur = playerRef.current.getDuration() || 0;
             const vol = playerRef.current.getVolume?.() ?? 80;
             const muted = playerRef.current.isMuted?.() ?? false;
-
-            if (typeof playerRef.current.getVideoData === 'function') {
-              const data = playerRef.current.getVideoData();
-              if (data && data.title && onVideoDataChangeRef.current) {
-                onVideoDataChangeRef.current(data);
-              }
-            }
 
             setPlayerState((prev) => ({
               ...prev,
@@ -177,27 +146,20 @@ export function useYouTubePlayer({
           playerRef.current = null;
         }
 
-        const playerVarsConfig: Record<string, unknown> = {
-          autoplay: 0,
-          controls: 1,
-          disablekb: 0,
-          enablejsapi: 1,
-          fs: 1,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          playsinline: 1,
-          rel: 0,
-        };
-
-        if (initialPlaylistId) {
-          playerVarsConfig.listType = 'playlist';
-          playerVarsConfig.list = initialPlaylistId;
-        }
-
         playerRef.current = new window.YT.Player(containerId, {
           host: 'https://www.youtube.com',
           videoId: initialVideoId || '1xN5-3t_p-Q',
-          playerVars: playerVarsConfig,
+          playerVars: {
+            autoplay: 0,
+            controls: 1,
+            disablekb: 0,
+            enablejsapi: 1,
+            fs: 1,
+            iv_load_policy: 3,
+            modestbranding: 1,
+            playsinline: 1,
+            rel: 0,
+          },
           events: {
             onReady: (event) => {
               if (!isMounted) return;
@@ -210,25 +172,12 @@ export function useYouTubePlayer({
                 isMuted: false,
                 error: null,
               }));
-              if (typeof event.target.getVideoData === 'function') {
-                const data = event.target.getVideoData();
-                if (data && data.title && onVideoDataChangeRef.current) {
-                  onVideoDataChangeRef.current(data);
-                }
-              }
             },
             onStateChange: (event) => {
               if (!isMounted) return;
               const ytState = event.data;
 
               if (ytState === window.YT.PlayerState.PLAYING) {
-                if (typeof event.target.getVideoData === 'function') {
-                  const data = event.target.getVideoData();
-                  if (data && data.title && onVideoDataChangeRef.current) {
-                    onVideoDataChangeRef.current(data);
-                  }
-                }
-
                 setPlayerState((prev) => ({
                   ...prev,
                   isPlaying: true,
@@ -261,18 +210,7 @@ export function useYouTubePlayer({
             },
             onError: (event) => {
               if (!isMounted) return;
-              console.warn('YouTube embed restriction on track (code ' + event.data + '). Auto-skipping to next available track...');
-              
-              // Gracefully skip to next video if current video embedding is restricted
-              if (playerRef.current && typeof playerRef.current.nextVideo === 'function') {
-                try {
-                  playerRef.current.nextVideo();
-                  return;
-                } catch {
-                  // Fallback
-                }
-              }
-
+              console.warn('YouTube embed playback notice (code ' + event.data + '). Moving to next song...');
               if (onTrackEndedRef.current) {
                 onTrackEndedRef.current();
               }
@@ -307,7 +245,7 @@ export function useYouTubePlayer({
     return () => {
       isMounted = false;
     };
-  }, [containerId, initialPlaylistId, initialVideoId]);
+  }, [containerId, initialVideoId]);
 
   const play = useCallback(() => {
     try {
@@ -349,53 +287,6 @@ export function useYouTubePlayer({
       }
     } catch (e) {
       console.warn('Load video error:', e);
-    }
-  }, []);
-
-  const loadPlaylist = useCallback((playlistId: string, index = 0, autoPlay = true) => {
-    try {
-      if (playerRef.current) {
-        if (autoPlay && typeof playerRef.current.loadPlaylist === 'function') {
-          playerRef.current.loadPlaylist({
-            list: playlistId,
-            listType: 'playlist',
-            index: index,
-          });
-        } else if (typeof playerRef.current.cuePlaylist === 'function') {
-          playerRef.current.cuePlaylist({
-            list: playlistId,
-            listType: 'playlist',
-            index: index,
-          });
-        }
-        setPlayerState((prev) => ({
-          ...prev,
-          currentTime: 0,
-          error: null,
-        }));
-      }
-    } catch (e) {
-      console.warn('Load playlist error:', e);
-    }
-  }, []);
-
-  const nextVideo = useCallback(() => {
-    try {
-      if (playerRef.current && typeof playerRef.current.nextVideo === 'function') {
-        playerRef.current.nextVideo();
-      }
-    } catch (e) {
-      console.warn('Next video error:', e);
-    }
-  }, []);
-
-  const previousVideo = useCallback(() => {
-    try {
-      if (playerRef.current && typeof playerRef.current.previousVideo === 'function') {
-        playerRef.current.previousVideo();
-      }
-    } catch (e) {
-      console.warn('Previous video error:', e);
     }
   }, []);
 
@@ -444,9 +335,6 @@ export function useYouTubePlayer({
     pause,
     togglePlay,
     loadVideo,
-    loadPlaylist,
-    nextVideo,
-    previousVideo,
     seekTo,
     setVolume,
     toggleMute,
