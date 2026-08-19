@@ -21,6 +21,7 @@ export interface Channel {
   tagline: string;
   iconName: string;
   color: string;
+  playlistId?: string;
 }
 
 export interface AmbiencePreset {

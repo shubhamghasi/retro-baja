@@ -6,7 +6,8 @@
       "name": "Master Anthems",
       "tagline": "All Channels & Full Vault",
       "iconName": "Radio",
-      "color": "#f59e0b"
+      "color": "#f59e0b",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "90s-romance",
@@ -14,7 +15,8 @@
       "name": "90s Golden Romance",
       "tagline": "The Cassette Deck Era & Velvet Vocals",
       "iconName": "Heart",
-      "color": "#ef4444"
+      "color": "#ef4444",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "2000s-nostalgia",
@@ -22,7 +24,8 @@
       "name": "2000s Millennium Hits",
       "tagline": "MTV, Walkmans & College Memories",
       "iconName": "Disc3",
-      "color": "#3b82f6"
+      "color": "#3b82f6",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "ghazals-soul",
@@ -30,7 +33,8 @@
       "name": "Late Night Ghazals",
       "tagline": "Harmonium, Shayari & Serene Nights",
       "iconName": "Moon",
-      "color": "#8b5cf6"
+      "color": "#8b5cf6",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "monsoon-melodies",
@@ -38,7 +42,8 @@
       "name": "Monsoon Melodies",
       "tagline": "Chai, Raindrops & Nostalgic Windows",
       "iconName": "CloudRain",
-      "color": "#06b6d4"
+      "color": "#06b6d4",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "indie-pop",
@@ -46,7 +51,8 @@
       "name": "Indie Pop Revolution",
       "tagline": "Lucky Ali, Euphoria & Silk Route",
       "iconName": "Guitar",
-      "color": "#10b981"
+      "color": "#10b981",
+      "playlistId": "PLVFLMYM1tErk"
     },
     {
       "id": "golden-classics",
@@ -54,7 +60,8 @@
       "name": "Kishore & Rafi Gold",
       "tagline": "Vinyl Records & Timeless 70s Melodies",
       "iconName": "Sparkles",
-      "color": "#eab308"
+      "color": "#eab308",
+      "playlistId": "PLVFLMYM1tErk"
     }
   ],
   "tracks": [

@@ -6,12 +6,13 @@ import { PlayerControls } from './components/PlayerControls/PlayerControls';
 import { PlaylistPanel } from './components/PlaylistPanel/PlaylistPanel';
 import { ShortcutsModal } from './components/ShortcutsModal/ShortcutsModal';
 
-import { useYouTubePlayer } from './hooks/useYouTubePlayer';
+import { useYouTubePlayer, VideoData } from './hooks/useYouTubePlayer';
 import { usePlaylist } from './hooks/usePlaylist';
 import { useAmbientAudio } from './hooks/useAmbientAudio';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { TvTheme } from './types/player';
+import { Track } from './types/playlist';
 import { playTvPowerOnSfx } from './utils/sfx';
 
 export const App: React.FC = () => {
@@ -52,6 +53,9 @@ export const App: React.FC = () => {
     cycleRepeat,
   } = usePlaylist();
 
+  // Dynamic live track info synced with YouTube player
+  const [liveTrackInfo, setLiveTrackInfo] = useState<Partial<Track> | null>(null);
+
   // Ambient Audio hook
   const {
     settings: ambientSettings,
@@ -65,7 +69,19 @@ export const App: React.FC = () => {
   }, [nextTrack]);
 
   const handleTrackError = useCallback((errorMsg: string) => {
-    console.warn('YouTube Player Error:', errorMsg);
+    console.warn('YouTube Player Error (Auto-recovering):', errorMsg);
+  }, []);
+
+  const handleVideoDataChange = useCallback((data: VideoData) => {
+    if (data && data.title) {
+      setLiveTrackInfo((prev) => {
+        if (prev?.title === data.title) return prev;
+        return {
+          title: data.title,
+          artist: data.author || 'Retro Classics',
+        };
+      });
+    }
   }, []);
 
   const {
@@ -74,14 +90,19 @@ export const App: React.FC = () => {
     pause,
     togglePlay,
     loadVideo,
+    loadPlaylist,
+    nextVideo,
+    previousVideo,
     seekTo,
     setVolume,
     toggleMute,
   } = useYouTubePlayer({
     containerId: 'yt-player-target',
+    initialPlaylistId: activeChannel.playlistId || 'PLVFLMYM1tErk',
     initialVideoId: currentTrack.youtubeVideoId,
     onTrackEnded: handleTrackEnded,
     onErrorTrack: handleTrackError,
+    onVideoDataChange: handleVideoDataChange,
   });
 
   // Track video switching
@@ -89,21 +110,38 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (prevTrackIdRef.current !== currentTrack.id) {
       prevTrackIdRef.current = currentTrack.id;
+      setLiveTrackInfo(null);
       if (isPowered) {
         loadVideo(currentTrack.youtubeVideoId, true);
       }
     }
   }, [currentTrack.id, currentTrack.youtubeVideoId, isPowered, loadVideo]);
 
+  // Channel playlist switching
+  const prevChannelIdRef = useRef<string>(activeChannel.id);
+  useEffect(() => {
+    if (prevChannelIdRef.current !== activeChannel.id) {
+      prevChannelIdRef.current = activeChannel.id;
+      setLiveTrackInfo(null);
+      if (isPowered && activeChannel.playlistId) {
+        loadPlaylist(activeChannel.playlistId, 0, true);
+      }
+    }
+  }, [activeChannel.id, activeChannel.playlistId, isPowered, loadPlaylist]);
+
   // Turn ON TV logic
   const handleTurnOn = useCallback(() => {
     playTvPowerOnSfx();
     setIsPowered(true);
     setTimeout(() => {
-      loadVideo(currentTrack.youtubeVideoId, true);
+      if (activeChannel.playlistId) {
+        loadPlaylist(activeChannel.playlistId, 0, true);
+      } else {
+        loadVideo(currentTrack.youtubeVideoId, true);
+      }
       play();
     }, 400);
-  }, [currentTrack.youtubeVideoId, loadVideo, play, setIsPowered]);
+  }, [activeChannel.playlistId, currentTrack.youtubeVideoId, loadPlaylist, loadVideo, play, setIsPowered]);
 
   // Power switch toggle
   const handleTogglePower = useCallback(() => {
@@ -114,6 +152,23 @@ export const App: React.FC = () => {
       handleTurnOn();
     }
   }, [isPowered, pause, handleTurnOn, setIsPowered]);
+
+  // Combined Track Info (Static Curated Data + Live YouTube Video Data)
+  const displayTrack: Track = {
+    ...currentTrack,
+    title: liveTrackInfo?.title || currentTrack.title,
+    artist: liveTrackInfo?.artist || currentTrack.artist,
+  };
+
+  const handleNext = useCallback(() => {
+    nextVideo();
+    nextTrack();
+  }, [nextVideo, nextTrack]);
+
+  const handlePrev = useCallback(() => {
+    previousVideo();
+    prevTrack();
+  }, [previousVideo, prevTrack]);
 
   // Theme change sync
   useEffect(() => {
@@ -129,8 +184,8 @@ export const App: React.FC = () => {
         togglePlay();
       }
     },
-    onNext: nextTrack,
-    onPrev: prevTrack,
+    onNext: handleNext,
+    onPrev: handlePrev,
     onToggleMute: toggleMute,
     onToggleShuffle: toggleShuffle,
     onCycleChannel: cycleNextChannel,
@@ -192,7 +247,7 @@ export const App: React.FC = () => {
           isPowered={isPowered}
           onTogglePower={handleTogglePower}
           onTurnOn={handleTurnOn}
-          currentTrack={currentTrack}
+          currentTrack={displayTrack}
           activeChannel={activeChannel}
           channelIndex={currentTrackIndex}
           totalChannels={channels.length}
@@ -208,7 +263,7 @@ export const App: React.FC = () => {
 
         {/* Now Playing Song Details */}
         <NowPlaying
-          currentTrack={currentTrack}
+          currentTrack={displayTrack}
           activeChannel={activeChannel}
           isPlaying={playerState.isPlaying}
           isFavorite={isFavorite(currentTrack.id)}
@@ -222,8 +277,8 @@ export const App: React.FC = () => {
             if (!isPowered) handleTurnOn();
             else togglePlay();
           }}
-          onNext={nextTrack}
-          onPrev={prevTrack}
+          onNext={handleNext}
+          onPrev={handlePrev}
           isShuffle={isShuffle}
           onToggleShuffle={toggleShuffle}
           repeatMode={repeatMode}
