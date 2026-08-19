@@ -1,0 +1,143 @@
+.ambientPopover {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 12px;
+  width: 320px;
+  background: #171310;
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ambientHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ambientTitle {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggleSwitch {
+  width: 40px;
+  height: 22px;
+  background: #2a221a;
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #4a3829;
+  transition: var(--transition-smooth);
+}
+
+.toggleSwitchOn {
+  background: var(--amber-led);
+  border-color: #d97706;
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.toggleSwitchOn .toggleThumb {
+  transform: translateX(18px);
+  background: #180e02;
+}
+
+/* Sliders Grid */
+.fadersList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.faderLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  width: 105px;
+}
+
+.faderInput {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  outline: none;
+}
+
+.faderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--amber-led);
+  cursor: pointer;
+}
+
+.faderValue {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  width: 30px;
+  text-align: right;
+}
+
+/* Preset Buttons */
+.presetsRow {
+  display: flex;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.presetBtn {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.presetBtn:hover {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: var(--amber-led);
+  color: var(--amber-led);
+}

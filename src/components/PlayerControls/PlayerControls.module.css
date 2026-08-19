@@ -1,0 +1,206 @@
+.controlsContainer {
+  width: 100%;
+  max-width: 960px;
+  margin: 12px auto 0 auto;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Scrubber / Progress Bar */
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.timeText {
+  font-family: var(--font-crt);
+  font-size: 16px;
+  color: var(--amber-led);
+  min-width: 44px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.scrubberWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 20px;
+}
+
+.scrubberTrack {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.scrubberProgress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #d97706 0%, #f59e0b 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--amber-led-glow);
+}
+
+.scrubberInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Main Buttons Row */
+.buttonsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.leftControls,
+.centerControls,
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.centerControls {
+  gap: 14px;
+}
+
+/* Control Button Styles */
+.ctrlBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.ctrlBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-warm);
+}
+
+.ctrlBtnActive {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--amber-led);
+  color: var(--amber-led);
+}
+
+/* Prominent Play / Pause Button */
+.playPauseBtn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #160d02;
+  box-shadow: 0 4px 16px var(--amber-led-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.playPauseBtn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+}
+
+/* Drawer Trigger Button */
+.playlistTriggerBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--amber-led);
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.playlistTriggerBtn:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: var(--amber-led);
+}
+
+.playlistBadge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  background: var(--amber-led);
+  color: #1a0f02;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* Volume Slider */
+.volumeWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volumeSlider {
+  width: 70px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--amber-led);
+  cursor: pointer;
+  box-shadow: 0 0 4px var(--amber-led-glow);
+}
+
+@media (max-width: 640px) {
+  .controlsContainer {
+    padding: 12px 14px;
+  }
+
+  .buttonsRow {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .volumeWrapper {
+    display: none;
+  }
+}

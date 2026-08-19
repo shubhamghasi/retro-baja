@@ -1,0 +1,130 @@
+.headerContainer {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 20;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandLogo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #68341b 0%, #2e1208 100%);
+  border: 1px solid var(--border-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.brandTitleGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.brandTagline {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber-led);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  transition: var(--transition-smooth);
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  border-color: var(--border-warm);
+}
+
+.actionBtnActive {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--amber-led);
+  color: var(--amber-led);
+}
+
+.themeSelector {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.themeDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 2px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.themeDot:hover {
+  transform: scale(1.15);
+}
+
+.themeDotActive {
+  border-color: #fff;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 640px) {
+  .headerContainer {
+    padding: 12px 14px;
+  }
+
+  .brandTagline {
+    display: none;
+  }
+
+  .actionLabel {
+    display: none;
+  }
+
+  .actionBtn {
+    padding: 7px 9px;
+  }
+}

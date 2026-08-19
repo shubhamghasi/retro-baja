@@ -1,0 +1,173 @@
+.nowPlayingCard {
+  width: 100%;
+  max-width: 960px;
+  margin: 16px auto 0 auto;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: var(--transition-smooth);
+}
+
+.nowPlayingCard:hover {
+  border-color: var(--border-warm);
+}
+
+.trackInfoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.metaBadges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.channelBadge {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--amber-led);
+  font-weight: 600;
+}
+
+.eraBadge {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+}
+
+.moodBadge {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.songTitle {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artistRow {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movieAlbum {
+  color: var(--amber-led);
+  font-weight: 500;
+}
+
+/* Right Section with Equalizer & Actions */
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Retro Equalizer Visualizer */
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 24px;
+  padding: 0 4px;
+}
+
+.eqBar {
+  width: 3.5px;
+  background: var(--amber-led);
+  border-radius: 1px;
+  box-shadow: 0 0 6px var(--amber-led-glow);
+  height: 4px;
+}
+
+.eqBarPlaying:nth-child(1) {
+  animation: eqDance 0.8s infinite ease-in-out 0.1s;
+}
+.eqBarPlaying:nth-child(2) {
+  animation: eqDance 0.6s infinite ease-in-out 0.3s;
+}
+.eqBarPlaying:nth-child(3) {
+  animation: eqDance 0.9s infinite ease-in-out 0.2s;
+}
+.eqBarPlaying:nth-child(4) {
+  animation: eqDance 0.7s infinite ease-in-out 0.4s;
+}
+.eqBarPlaying:nth-child(5) {
+  animation: eqDance 1.0s infinite ease-in-out 0.15s;
+}
+
+.favButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition-smooth);
+}
+
+.favButton:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  transform: scale(1.08);
+}
+
+.favButtonActive {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+@media (max-width: 640px) {
+  .nowPlayingCard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+  }
+
+  .rightActions {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+  }
+}

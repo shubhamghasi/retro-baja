@@ -1,0 +1,44 @@
+/* Theme definitions for RetroBaja */
+
+:root,
+[data-theme='teakwood'] {
+  --tv-body-grad: linear-gradient(135deg, #441f11 0%, #68341b 30%, #4a2110 70%, #2e1208 100%);
+  --tv-body-grain: repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(0,0,0,0.05) 4px, rgba(255,255,255,0.01) 8px);
+  --tv-bezel-grad: linear-gradient(145deg, #1f1b18 0%, #2f2a24 40%, #151311 100%);
+  --tv-bezel-border: #4d3a2b;
+  --tv-trim-gold: linear-gradient(180deg, #ffd700 0%, #b8860b 60%, #8b6508 100%);
+  --tv-knob-bg: linear-gradient(145deg, #2b2520 0%, #171310 100%);
+  --tv-knob-rim: #d4af37;
+  --tv-speaker-bg: #1e1915;
+  --tv-accent: #f59e0b;
+  --tv-accent-glow: rgba(245, 158, 11, 0.4);
+  --room-glow: rgba(245, 158, 11, 0.08);
+}
+
+[data-theme='charcoal'] {
+  --tv-body-grad: linear-gradient(135deg, #1e2229 0%, #2c323d 30%, #1f232b 70%, #14171d 100%);
+  --tv-body-grain: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(0,0,0,0.04) 2px);
+  --tv-bezel-grad: linear-gradient(145deg, #111418 0%, #1c2128 40%, #0d0f12 100%);
+  --tv-bezel-border: #384252;
+  --tv-trim-gold: linear-gradient(180deg, #94a3b8 0%, #64748b 60%, #334155 100%);
+  --tv-knob-bg: linear-gradient(145deg, #252b36 0%, #13171e 100%);
+  --tv-knob-rim: #38bdf8;
+  --tv-speaker-bg: #141820;
+  --tv-accent: #38bdf8;
+  --tv-accent-glow: rgba(56, 189, 248, 0.4);
+  --room-glow: rgba(56, 189, 248, 0.08);
+}
+
+[data-theme='retromint'] {
+  --tv-body-grad: linear-gradient(135deg, #1b3a37 0%, #2a5652 30%, #1c3c39 70%, #102422 100%);
+  --tv-body-grain: repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(0,0,0,0.05) 3px);
+  --tv-bezel-grad: linear-gradient(145deg, #122120 0%, #1e3332 40%, #0c1716 100%);
+  --tv-bezel-border: #346863;
+  --tv-trim-gold: linear-gradient(180deg, #fef08a 0%, #ca8a04 60%, #854d0e 100%);
+  --tv-knob-bg: linear-gradient(145deg, #1a2f2d 0%, #0d1a19 100%);
+  --tv-knob-rim: #2dd4bf;
+  --tv-speaker-bg: #112120;
+  --tv-accent: #2dd4bf;
+  --tv-accent-glow: rgba(45, 212, 191, 0.4);
+  --room-glow: rgba(45, 212, 191, 0.08);
+}

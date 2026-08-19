@@ -1,0 +1,179 @@
+@import './themes.css';
+
+:root {
+  --bg-dark: #0b0908;
+  --bg-surface: #14110f;
+  --bg-surface-elevated: #1e1916;
+  --bg-card: rgba(26, 21, 18, 0.85);
+
+  --text-primary: #f8f6f0;
+  --text-secondary: #c4b8aa;
+  --text-muted: #84796d;
+
+  --amber-led: #ffb703;
+  --amber-led-glow: rgba(255, 183, 3, 0.55);
+  --crt-green: #39ff14;
+  --crt-green-glow: rgba(57, 255, 20, 0.4);
+  --ruby-red: #ef4444;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-warm: rgba(245, 158, 11, 0.2);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-tv: 32px;
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-crt: 'VT323', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-tactile: transform 0.1s cubic-bezier(0.3, 0, 0, 1.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--tv-accent);
+}
+
+/* Background Atmosphere */
+.retro-room-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 30%, var(--room-glow) 0%, transparent 65%),
+    radial-gradient(circle at 10% 20%, rgba(255, 150, 50, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(100, 150, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, #15110d 0%, #080605 100%);
+}
+
+.retro-room-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.95);
+}
+
+/* Cinema Lights Off Backdrop */
+.cinema-lights-off {
+  background-color: #040303 !important;
+}
+
+.cinema-lights-off .retro-room-bg {
+  opacity: 0.15;
+}
+
+/* Button & Interactive Reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  user-select: none;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Phosphor Screen Static Flicker Animation */
+@keyframes phosphorFlicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  52% { opacity: 0.94; }
+  54% { opacity: 1; }
+  80% { opacity: 0.98; }
+  100% { opacity: 0.97; }
+}
+
+@keyframes crtPowerOn {
+  0% {
+    transform: scale(0.01, 0.002);
+    opacity: 0;
+    filter: brightness(30);
+  }
+  35% {
+    transform: scale(1, 0.005);
+    opacity: 1;
+    filter: brightness(20);
+  }
+  60% {
+    transform: scale(1, 0.08);
+    filter: brightness(8);
+  }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 12px var(--amber-led-glow), inset 0 0 8px var(--amber-led-glow);
+  }
+  50% {
+    box-shadow: 0 0 22px var(--amber-led-glow), inset 0 0 14px var(--amber-led-glow);
+  }
+}
+
+@keyframes eqDance {
+  0%, 100% { height: 20%; }
+  50% { height: 95%; }
+}
+
+/* Utilities */
+.text-gold {
+  color: var(--amber-led);
+}
+
+.font-crt {
+  font-family: var(--font-crt);
+  letter-spacing: 1px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
